@@ -11,11 +11,15 @@ app.use(express.urlencoded({ extended: true }));
 // Session тохиргоо
 app.use(
   session({
-    secret: "dwaawdwad",
+    secret: "WA%^5Df%^hb6500",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // for development, in production set to true
-  })
+    cookie: { secure: false, maxAge: 2000000 }, // for development, in production set to true
+  }),
+  (req, res, next) => {
+    console.log("REQ SESSION: ", req.session);
+    next();
+  }
 );
 
 app.use("/api", authRoutes);

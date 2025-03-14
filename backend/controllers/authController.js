@@ -7,11 +7,16 @@ export const loginUser = async (req, res) => {
   console.log("REQ BODY: ", req.body);
 
   const user = await db("user").where({ email }).first();
-  if (!user || user.password !== password) {
+
+  const hashedPassword = await bcrypt.hash(user.password, 10);
+  const match = await bcrypt.compare(password, hashedPassword);
+
+  if (!match) {
     return res.status(401).json({ message: "User not found" });
   }
+
   req.session.userId = user.id;
-  console.log("req.session.userId: ", req.session.userId);
+  console.log("req.session.userId: ", req.session);
   return res
     .status(200)
     .json({ message: "Login successful", session: req.session.userId });
