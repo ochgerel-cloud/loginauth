@@ -1,12 +1,13 @@
 import bcrypt from "bcrypt";
 import db from "./db.js";
 
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   console.log("loginUser STARTED ====>");
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   console.log("REQ BODY: ", req.body);
 
-  const user = await db("user").where({ email }).first();
+  const user = await db("user").where({ email: username }).first();
+  console.log("USEEER: ", user);
 
   const hashedPassword = await bcrypt.hash(user.password, 10);
   const match = await bcrypt.compare(password, hashedPassword);
@@ -16,10 +17,12 @@ export const loginUser = async (req, res) => {
   }
 
   req.session.userId = user.id;
-  console.log("req.session.userId: ", req.session);
-  return res
-    .status(200)
-    .json({ message: "Login successful", session: req.session.userId });
+  console.log(
+    "req.session.userId: LOGIN SUCCESSFULL=======>",
+    req.session.userId
+  );
+
+  return res.status(200).json({ message: "Login successful" });
 };
 
 // Логин хийсэн эсэхийг шалгах

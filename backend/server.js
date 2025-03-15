@@ -1,10 +1,12 @@
 import express from "express";
 import session from "express-session";
 import authRoutes from "./routes/authRoutes.js";
+import cors from "cors";
 
 const app = express();
 console.log("SERVER STARTED ====>");
 //MiddleWares
+app.use(cors({ origin: "http://localhost:3099" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -17,7 +19,7 @@ app.use(
     cookie: { secure: false, maxAge: 2000000 }, // for development, in production set to true
   }),
   (req, res, next) => {
-    console.log("REQ SESSION: ", req.session);
+    console.log("REQ SESSION: ", req.session.userId);
     next();
   }
 );
