@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false })); // URL-ийг ашиглах
 
 app.use("/", authRoutes); // Root URL-д authRoutes-ийг ашиглах
 
-const port = 7000; // Портын дугаарыг тодорхойлох
+const port = 7123; // Портын дугаарыг тодорхойлох
 app.listen(
   port,
   () =>

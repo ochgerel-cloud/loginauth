@@ -29,14 +29,14 @@ export default function Register() {
       <div>Register page</div>
       <div>
         <form onSubmit={registerUser}>
-          <label>Name: {data.name}</label>
+          <label>Name:</label>
           <input
             type="text"
             placeholder="enter name..."
             value={data.name}
             onChange={(e) => setData({ ...data, name: e.target.value })}
           />
-          <label>Email: {data.email}</label>
+          <label>Email: </label>
           <input
             type="email"
             placeholder="enter email..."

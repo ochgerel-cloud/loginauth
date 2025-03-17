@@ -2,8 +2,10 @@ import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 
 export default function Dashboard() {
+  console.log("Dashboard is working");
+
   const { user } = useContext(UserContext);
-  //   console.log(user.data.name);
+  console.log("userContext: ", user);
 
   return (
     <div>

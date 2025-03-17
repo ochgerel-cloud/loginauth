@@ -51,22 +51,21 @@ const loginUser = async (req, res) => {
     // console.log(user);
 
     //Нууц үгийг шалгах
+
     const match = await comparedPassword(password, user.password);
     if (!match) {
       return res.json({ message: "Password is incorrect", type: "error" }); // password is incorrect
     }
     console.log("JWT_SECRET: ", process.env.JWT_SECRET);
-
     jwt.sign(
       { email: user.email, id: user._id, name: user.name },
       process.env.JWT_SECRET,
-      { expiresIn: 3600 },
+      {},
       (err, token) => {
         if (err) throw err;
         try {
-          res
-            .cookie("token", token)
-            .json({ message: "Login success", type: "success" });
+          res.cookie("token", token); // Cookie-д token-ийг оруулах
+          return res.json({ user }); // login success
         } catch (cookieErr) {
           console.error("Cookie setting error: ", cookieErr); // Алдааг логлох
           return res
@@ -81,6 +80,7 @@ const loginUser = async (req, res) => {
 
 const getProfile = (req, res) => {
   const { token } = req.cookies;
+
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
       if (err) throw err;
@@ -89,7 +89,7 @@ const getProfile = (req, res) => {
       res.json(user);
     });
   } else {
-    res.json({ message: "User not found", type: "error" });
+    res.json(null);
   }
 };
 

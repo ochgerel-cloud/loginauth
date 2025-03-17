@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -9,16 +11,22 @@ export default function Login() {
     email: "bold@gmail.com",
     password: "123456789",
   });
+  const { setUser } = useContext(UserContext);
   const loginUser = async (e) => {
     e.preventDefault();
     const { email, password } = data;
     try {
       const { data } = await axios.post("/login", { email, password });
+
       if (data.type === "error") {
         toast.error(data.message);
       } else {
+        console.log("LOGIN:", data);
+
+        setUser(data.user);
         setData({});
         toast.success(data.message);
+
         navigate("/dashboard");
       }
     } catch (error) {}
