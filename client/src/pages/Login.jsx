@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [data, setData] = useState({ email: "", password: "" });
+  const [data, setData] = useState({
+    email: "bold@gmail.com",
+    password: "123456789",
+  });
   const loginUser = async (e) => {
     e.preventDefault();
     const { email, password } = data;

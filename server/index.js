@@ -2,6 +2,7 @@ import express from "express"; // Express модулийг импортлох
 import { config } from "dotenv"; // Dotenv модулиас config функцийг импортлох
 import authRoutes from "./routes/authRoutes.js"; // authRoutes модулийг импортлох
 import { mongoose } from "mongoose"; // Mongoose модулийг импортлох
+import cookieParser from "cookie-parser";
 
 config(); // Environment variables-ийг ачаалах
 
@@ -17,6 +18,8 @@ mongoose
   }); // MongoDB-тай холбогдох
 
 app.use(express.json()); // JSON-ийг ашиглах
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false })); // URL-ийг ашиглах
 
 app.use("/", authRoutes); // Root URL-д authRoutes-ийг ашиглах
 

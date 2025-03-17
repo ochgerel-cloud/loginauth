@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import { hashPassword, comparedPassword } from "../helpers/auth.js";
+import jwt from "jsonwebtoken";
 
 const test = (req, res) => {
   res.json("test route");
@@ -54,7 +55,27 @@ const loginUser = async (req, res) => {
     if (!match) {
       return res.json({ message: "Password is incorrect", type: "error" }); // password is incorrect
     }
-    return res.json({ message: "Login success", type: "success" }); // login success
+    console.log("JWT_SECRET: ", process.env.JWT_SECRET);
+
+    jwt.sign(
+      { email: user.email, id: user._id, name: user.name },
+      process.env.JWT_SECRET,
+      { expiresIn: 3600 },
+      (err, token) => {
+        if (err) throw err;
+        try {
+          res
+            .cookie("token", token)
+            .json({ message: "Login success", type: "success" });
+        } catch (cookieErr) {
+          console.error("Cookie setting error: ", cookieErr); // Алдааг логлох
+          return res
+            .status(500)
+            .json({ message: "Cookie setting error", type: "error" });
+        }
+      }
+    );
+    // return res.json({ message: "Login success", type: "success" }); // login success
   } catch (error) {}
 };
 
