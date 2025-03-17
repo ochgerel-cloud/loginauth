@@ -19,7 +19,7 @@ export default function Login() {
       } else {
         setData({});
         toast.success(data.message);
-        navigate("/home");
+        navigate("/dashboard");
       }
     } catch (error) {}
   };

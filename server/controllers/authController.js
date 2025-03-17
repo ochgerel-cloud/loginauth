@@ -79,4 +79,18 @@ const loginUser = async (req, res) => {
   } catch (error) {}
 };
 
-export { test, registerUser, loginUser };
+const getProfile = (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
+      if (err) throw err;
+      console.log("User: ", user.name);
+
+      res.json(user);
+    });
+  } else {
+    res.json({ message: "User not found", type: "error" });
+  }
+};
+
+export { test, registerUser, loginUser, getProfile };
