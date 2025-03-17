@@ -4,7 +4,11 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:7000";
+// axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.withCredentials = true;
 function App() {
   return (
     <>

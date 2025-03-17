@@ -1,9 +1,11 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
   const [data, setData] = useState({ email: "", password: "" });
   const loginUser = (e) => {
     e.preventDefault();
+    axios("/");
   };
   return (
     <>
@@ -14,8 +16,8 @@ export default function Login() {
           <input
             type="email"
             placeholder="enter email..."
-            value={data.name}
-            onChange={(e) => setData({ ...data, name: e.target.value })}
+            value={data.email} // corrected from data.name to data.email
+            onChange={(e) => setData({ ...data, email: e.target.value })} // corrected from name to email
           />
           <label>Password:</label>
           <input
