@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import { hashPassword, comparedPassword } from "../helpers/auth.js";
 
 const test = (req, res) => {
   res.json("test route");
@@ -26,12 +27,35 @@ const registerUser = async (req, res) => {
     if (exist) {
       return res.json({ message: "User already exists", type: "error" });
     }
+    const hashedPassword = await hashPassword(password); // Нууц үгийг хашлах
     // Шинэ хэрэглэгч үүсгэх
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name, email, password: hashedPassword });
     return res.json({ user, type: "success" });
   } catch (error) {
     console.log(error);
   }
 };
 
-export { test, registerUser };
+const loginUser = async (req, res) => {
+  console.log("loginUser endpoint is working: ", req.body);
+
+  try {
+    const { email, password } = req.body;
+    //Хэрэглэгчийг олох
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.json({ message: "User not found", type: "error" });
+    }
+    // return res.json({ user, type: "success" });
+    // console.log(user);
+
+    //Нууц үгийг шалгах
+    const match = await comparedPassword(password, user.password);
+    if (!match) {
+      return res.json({ message: "Password is incorrect", type: "error" }); // password is incorrect
+    }
+    return res.json({ message: "Login success", type: "success" }); // login success
+  } catch (error) {}
+};
+
+export { test, registerUser, loginUser };
