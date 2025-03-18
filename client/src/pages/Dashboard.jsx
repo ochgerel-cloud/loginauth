@@ -5,7 +5,7 @@ export default function Dashboard() {
   console.log("Dashboard is working");
 
   const { user } = useContext(UserContext);
-  console.log("userContext: ", user);
+  console.log("user variable from Dashboard Component: ", user);
 
   return (
     <div>
