@@ -4,8 +4,10 @@ import { UserContext } from "../../context/userContext";
 export default function Dashboard() {
   console.log("Dashboard is working");
 
-  const { user } = useContext(UserContext);
-  console.log("userContext: ", user);
+  const { user, setStart } = useContext(UserContext);
+  // const { setStart } = useContext(UserContext);
+  setStart((prevstate) => !prevstate);
+  // console.log("userContext: ", start);
 
   return (
     <div>

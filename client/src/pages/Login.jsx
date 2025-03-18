@@ -11,7 +11,7 @@ export default function Login() {
     email: "bold@gmail.com",
     password: "123456789",
   });
-  const { setUser } = useContext(UserContext);
+  const { setUser, setStart } = useContext(UserContext);
   const loginUser = async (e) => {
     e.preventDefault();
     const { email, password } = data;
@@ -23,7 +23,8 @@ export default function Login() {
       } else {
         console.log("LOGIN:", data);
 
-        setUser(data.user);
+        // setUser(data.user);
+        setStart((prevstate) => !prevstate);
         setData({});
         toast.success(data.message);
 
