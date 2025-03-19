@@ -1,19 +1,18 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
 
 export default function Dashboard() {
-  console.log("Dashboard is working");
+  const { user, setStart, start } = useContext(UserContext);
 
-<<<<<<< HEAD
-  const { user } = useContext(UserContext);
-  console.log("user variable from Dashboard Component: ", user);
-=======
-  const { user, setStart } = useContext(UserContext);
-  // const { setStart } = useContext(UserContext);
-  setStart((prevstate) => !prevstate);
-  // console.log("userContext: ", start);
->>>>>>> 263f828c10b33e90d7fb165f1f0ce176b5a654d9
+  console.log("DASHBOARD: ", start);
 
+  useEffect(() => {
+    setStart(() => {
+      if (start) return false;
+      return true;
+    });
+    console.log("Dashboard is working");
+  }, [setStart]);
   return (
     <div>
       <h1>Dashboard</h1>

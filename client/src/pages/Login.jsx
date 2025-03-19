@@ -24,7 +24,7 @@ export default function Login() {
         console.log("LOGIN:", data);
 
         // setUser(data.user);
-        setStart((prevstate) => !prevstate);
+        // setStart(true);
         setData({});
         toast.success(data.message);
 
