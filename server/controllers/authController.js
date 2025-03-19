@@ -64,9 +64,11 @@ const loginUser = async (req, res) => {
       (err, token) => {
         if (err) throw err;
         try {
-          res.cookie("token", token); // Cookie-д token-ийг оруулах
+          res.cookie("token", token, { httpOnly: true, maxAge: 10000 }); // Cookie-д token-ийг оруулах
           return res.json({
-            user: { name: user.name, id: user._id, email: user.email },
+            user: { name: user.name, email: user.email },
+            message: "Login successfull",
+            type: "success",
           }); // login success
         } catch (cookieErr) {
           console.error("Cookie setting error: ", cookieErr); // Алдааг логлох
@@ -86,7 +88,7 @@ const getProfile = (req, res) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
       if (err) throw err;
-      console.log("User: ", user);
+      console.log("User: ", user.name);
 
       res.json(user);
     });
